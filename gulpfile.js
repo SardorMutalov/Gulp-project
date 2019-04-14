@@ -1,9 +1,13 @@
 var gulp        = require('gulp'),
     browserSync = require('browser-sync').create(),
     sass        = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    cache         = require('gulp-cache');
 
-// Static Server + watching scss/html files
+    sass.compiler = require('node-sass');
+
+// Таск статичного сервира и отслеживания изменений в файлах
+// Обновляе браузер при сохранении
 gulp.task('serve', ['sass'], function() {
 
     browserSync.init({
@@ -14,13 +18,19 @@ gulp.task('serve', ['sass'], function() {
     gulp.watch("src/*.html").on('change', browserSync.reload);
 });
 
-// Compile sass into CSS & auto-inject into browsers
+// Таск автоматически компилирует SCSS файл в CSS
 gulp.task('sass', function() {
     return gulp.src("src/sass/*.scss")
-        .pipe(sass())
-        .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
+        .pipe(sass()) //Компиляция
+        .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) //Добавлят вендорские префиксы
         .pipe(gulp.dest("src/css"))
-        .pipe(browserSync.stream());
+        .pipe(browserSync.stream()); //Синхронизация с browserSync
 });
 
 gulp.task('default', ['serve']);
+
+// Очистка кэша сборки
+
+gulp.task('clear', function (callback) {
+  return cache.clearAll();
+})
