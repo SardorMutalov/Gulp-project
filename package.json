@@ -1,0 +1,18 @@
+{
+  "name": "Gulp-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/SardorMutalov/Gulp-project.git",
+  "author": "Sardor.Mutalov <45397981+SardorMutalov@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "3.9.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-cache": "^1.1.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-watch": "^5.0.1",
+  }
+}
