@@ -1,8 +1,16 @@
-var gulp        = require('gulp'),
-    browserSync = require('browser-sync').create(),
-    sass        = require('gulp-sass'),
+// Пакеты для работы с src
+
+var gulp         = require('gulp'),
+    browserSync  = require('browser-sync').create(),
+    sass         = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
-    cache         = require('gulp-cache');
+    cache        = require('gulp-cache');
+
+// Пакеты для работы с public
+
+var concat       = require('gulp-concat');
+
+// Работа над src
 
     sass.compiler = require('node-sass');
 
@@ -18,6 +26,7 @@ gulp.task('serve', ['sass'], function() {
     gulp.watch("src/*.html").on('change', browserSync.reload);
 });
 
+
 // Таск автоматически компилирует SCSS файл в CSS
 gulp.task('sass', function() {
     return gulp.src("src/sass/*.scss")
@@ -28,6 +37,11 @@ gulp.task('sass', function() {
 });
 
 gulp.task('default', ['serve']);
+
+
+// Работа над public
+
+
 
 // Очистка кэша сборки
 
