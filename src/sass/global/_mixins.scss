@@ -1,0 +1,51 @@
+// Храним тут миксины и прочие преднастройки
+@mixin text-mark{
+	.text-mark-green{
+		color: #42bdc4;
+	}
+	.text-mark-black{
+		font-weight: bold;
+		color: #000;
+	}
+	.text-mark-grey{
+		font-weight: bold;
+		color: $darkGrey-color;
+	}
+}
+
+@mixin content-container{
+	.content-container{
+		max-width: 1173px;
+		width: 100%;
+		height: auto;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flex;
+		display: -o-flex;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		padding: 0 5px 0 5px;
+		margin: 0 auto;
+	}
+}
+
+@mixin to-top-icon{
+	.page-to-top{
+		align-self: flex-end;
+		width: 55px;
+		height: 55px;
+		margin-right: 10px;
+
+
+		.page-to-top-icon{
+			font-size: 55px;
+			color: $darkGreyArrow-color;
+			transition: color $easeIn-2s;
+			&:hover{
+				color: $general-color-hover;
+				transition: color $easeIn-2s;
+			}
+		}
+	}
+}

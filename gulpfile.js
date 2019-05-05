@@ -1,50 +1,62 @@
-// Пакеты для работы с src
-
-var gulp         = require('gulp'),
-    browserSync  = require('browser-sync').create(),
-    sass         = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cache        = require('gulp-cache');
-
-// Пакеты для работы с public
-
-var concat       = require('gulp-concat');
-
-// Работа над src
-
-    sass.compiler = require('node-sass');
-
-// Таск статичного сервира и отслеживания изменений в файлах
-// Обновляе браузер при сохранении
-gulp.task('serve', ['sass'], function() {
-
-    browserSync.init({
-        server: "./src"
-    });
-
-    gulp.watch("src/sass/*.scss", ['sass']);
-    gulp.watch("src/*.html").on('change', browserSync.reload);
-});
+var gulp        = require('gulp'),
+  sass          = require('gulp-sass'),
+  browserSync   = require('browser-sync'),
+  imagemin      = require('gulp-imagemin'),
+  cache         = require('gulp-cache'),
+  autoprefixer  = require('gulp-autoprefixer');
 
 
-// Таск автоматически компилирует SCSS файл в CSS
+// Таск для Sass
 gulp.task('sass', function() {
-    return gulp.src("src/sass/*.scss")
-        .pipe(sass()) //Компиляция
-        .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) //Добавлят вендорские префиксы
-        .pipe(gulp.dest("src/css"))
-        .pipe(browserSync.stream()); //Синхронизация с browserSync
+  return gulp.src('src/sass/*.scss')
+    .pipe(sass())
+    .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true }))
+    .pipe(gulp.dest('src/css'))
+    .pipe(browserSync.reload({stream: true}))
 });
 
-gulp.task('default', ['serve']);
+// Таск для синхонизации с браузером
+gulp.task('browser-sync', function() {
+  browserSync({
+    server: {
+      baseDir: 'src'
+    },
+    notify: false
+  });
+});
 
+// Таск для перезагрузке браузера после правки html
+gulp.task('html', function() {
+  return gulp.src('src/*.html')
+  .pipe(browserSync.reload({ stream: true }))
+});
 
-// Работа над public
+// Таск сжатия изображений
 
+gulp.task('img', function() {
+  return gulp.src('src/img/**/*')
+    .pipe(cache(imagemin({
+      interlaced: true,
+      progressive: true,
+      svgoPlugins: [{removeViewBox: false}],
+    })))
+    .pipe(gulp.dest('dist/img'));
+});
 
-
-// Очистка кэша сборки
+// Таск очистки кэша
 
 gulp.task('clear', function (callback) {
   return cache.clearAll();
 })
+
+// Слежка за изменениями в файлах
+
+gulp.task('watch', function() {
+  gulp.watch('src/sass/**/*.scss', gulp.parallel('sass'));
+  gulp.watch('src/*.html', gulp.parallel('html'));
+});
+
+// Таск 'devop' для режима разработки
+// Таск 'build' для режима продакшн
+
+gulp.task('devop', gulp.parallel('sass', 'browser-sync', 'watch'));

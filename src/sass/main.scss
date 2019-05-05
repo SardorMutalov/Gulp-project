@@ -1,0 +1,15 @@
+// объединяем все SCSS файлы
+
+// глобальные стили
+
+@import "global/global.scss";
+
+// стили разметки
+
+@import "block/_header.scss";
+
+@import "block/_footer.scss";
+
+// медиа запросы
+
+@import "media/media.scss";
