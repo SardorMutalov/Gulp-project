@@ -12,7 +12,7 @@
     "gulp-cache": "^1.1.1",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^4.0.2",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.13.1"
   },
   "dependencies": {
     "gulp-imagemin": "^5.0.3"
